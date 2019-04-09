@@ -36,7 +36,7 @@ process dragen {
   set val(name), file(fastq), file(fasta) from dragen
 
   output:
-  set val(name), file("${name}.vcf") into vcfGenotypes
+  set val(name), file("${name}.vcf"), file(".command.log") into results
 
   script:
   """
