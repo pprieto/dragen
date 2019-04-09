@@ -29,7 +29,7 @@ output_directory = args["output_directory"]
 output_file_prefix = args["output_file_prefix"]
 output_file = output_directory + "/" + output_file_prefix + ".vcf"
 
-print f'Generating output file: "{output_file}"'
+print 'Generating output file: "{output_file}"'.format(output_file=output_file)
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
 try:
