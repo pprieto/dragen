@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
 
 import argparse
 import os
@@ -19,16 +19,17 @@ parser.add_argument('--vc-sample-name', help='Sample name')
 
 args = vars(parser.parse_args())
 
-print("\n","Input parameters:")
+print "\n"
+print "Input parameters:"
 for arg in args:
-  print(arg, ":", args[arg])
-print("\n")
+  print arg, ":", args[arg]
+print "\n"
 
 output_directory = args["output_directory"]
 output_file_prefix = args["output_file_prefix"]
 output_file = output_directory + "/" + output_file_prefix + ".vcf"
 
-print(f'Generating output file: "{output_file}"')
+print f'Generating output file: "{output_file}"'
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
 try:
