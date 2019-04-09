@@ -9,7 +9,7 @@
 ----------------------------------------------------------------------------------------
 */
 
-params.fasta = params.genome ? params.genomes[ params.genome ].fasta ?: false : false
+// params.fasta = params.genome ? params.genomes[ params.genome ].fasta ?: false : false
 if (params.fasta) {
     Channel.fromPath(params.fasta)
            .ifEmpty { exit 1, "FASTA annotation file not found: ${params.fasta}" }
