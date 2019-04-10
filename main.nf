@@ -69,7 +69,7 @@ process dragen {
   set val(name), file(fastq), file(fasta), file(ref) from dragen
 
   output:
-  set val(name), file("${name}.vcf") into results
+  set val(name), file("${name}*"), file("streaming_log.csv") into results
 
   script:
   """
