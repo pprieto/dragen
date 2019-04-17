@@ -70,6 +70,7 @@ process dragen {
 
   output:
   set val(name), file("${name}*"), file("streaming_log.csv") into results
+  set val(name), file("${name}.vcf.gz"),file("${name}.vcf.gz.tbi") into vcf_bcftools
 
   script:
   """
@@ -81,5 +82,52 @@ process dragen {
   -2 ${fastq[1]}\
   --enable-variant-caller true \
   --vc-sample-name $name
+  """
+}
+
+/*--------------------------------------------------
+  Run BCFtools to generate statistics for the VCF
+---------------------------------------------------*/
+
+process bcftools {
+  tag "$vcf"
+
+  container 'lifebitai/bcftools:latest'
+
+  input:
+  set val(name), file(vcf), file(index) from vcf_bcftools
+  
+  output:
+  file("*") into bcftools_multiqc
+
+  when: !params.skip_multiqc
+
+  script:
+  """
+  bcftools stats $vcf > bcfstats.txt
+  """
+}
+
+/*--------------------------------------------------
+  Visualise results from BCFtools using MultiQC
+---------------------------------------------------*/
+
+process multiqc {
+  tag "multiqc_report.html"
+
+  publishDir "${params.outdir}/MultiQC", mode: 'copy'
+  container 'ewels/multiqc:v1.7'
+
+  input:
+  file bcfstats from bcftools_multiqc
+
+  output:
+  file("*") into multiqc
+
+  when: !params.skip_multiqc
+
+  script:
+  """
+  multiqc . -m bcftools 
   """
 }
