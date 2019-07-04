@@ -24,7 +24,7 @@ if (params.ref) {
       .set { ref_dragen }
 }
 
-reads="${params.reads}/${params.reads_prefix}_{1,2}.${params.reads_extension}"
+reads="${params.reads}/${params.reads_prefix}_R{1,2}.${params.reads_extension}"
 Channel
     .fromFilePairs(reads, size: 2)
     .ifEmpty { exit 1, "Cannot find any reads matching: ${reads}" }
